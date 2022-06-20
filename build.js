@@ -3,7 +3,7 @@
 const fs = require("fs-extra");
 const path = require("path");
 const { pascalCase } = require("pascal-case");
-const babel = require('@babel/core');
+const babel = require("@babel/core");
 
 const PATH = path.resolve("node_modules/@tabler/icons/icons");
 
@@ -18,12 +18,10 @@ export default {
         }
     },
     render() {
-        const size = this.$props.size + 'px';
-        const attrs = this.$data.attrs || {};
+        const size = this.props.size + 'px';
         const allAttrs = {
-            ...this.$data,
-            width: attrs.width || size,
-            height: attrs.height || size,
+            width: size,
+            height: size,
         }
 
         return ${svg.replace(/<svg([^>]+)>/, "<svg$1 {...allAttrs}>")}
@@ -61,7 +59,7 @@ fs.readdir(PATH, (err, items) => {
     items
         .filter((name) => name.endsWith(".svg"))
         .forEach((name, pos) => {
-            process.stdout.write(`Building ${pos}/${items.length}: ` + name.padEnd(42) + '\r');
+            process.stdout.write(`Building ${pos}/${items.length}: ` + name.padEnd(42) + "\r");
 
             let content = fs.readFileSync(`${PATH}/${name}`, "utf-8").replace(/\n/gm, " ");
 
@@ -71,7 +69,7 @@ fs.readdir(PATH, (err, items) => {
 
             // create and transform component
             let component = componentTemplate(nameCamel, content);
-            const compiled = babel.transform(component, {plugins: ['@vue/babel-plugin-jsx']}).code;
+            const compiled = babel.transform(component, { plugins: ["@vue/babel-plugin-jsx"] }).code;
 
             // write icon component
             let filePath = path.resolve(`icons/${nameCamel}.js`);
