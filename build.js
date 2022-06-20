@@ -18,7 +18,7 @@ export default {
         }
     },
     render() {
-        const size = this.props.size + 'px';
+        const size = this.size + 'px';
         const allAttrs = {
             width: size,
             height: size,
